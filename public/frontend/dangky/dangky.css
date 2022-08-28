@@ -1,0 +1,268 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+.mainwap{
+    height: 100%;
+    width: 100%;
+   background-image: url(background.jpg);
+   background-position: center;
+   background-size: cover;
+   
+  
+   
+   
+   
+}
+.form-box{
+    width: 380px;
+    height: 600px;
+    position: relative;
+    margin: 0% auto;
+    background-color: #1E1F26;
+    
+    padding: 1px;
+    border-radius: 30px;
+    overflow: hidden;
+    
+}
+.nut-box{
+    
+    width: 218px;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #f70aeb1f;
+    border-radius: 30px;
+  
+}
+.style-nut{
+    
+    padding: 10px 23px;;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+    color: rgb(255, 255, 255);
+    font-family: Comic Sans MS;
+    font-weight: bold;
+   
+}
+#btn{
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 110px;
+    height: 100%;
+    background: linear-gradient(to right, #a205d1, #fa1f97);
+    border-radius: 35px;
+    transition: .5s;
+    
+}
+
+
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    
+    
+}
+
+.mx-12 {
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    
+}
+.box input[type = "email"]{
+    border: 0;
+    background: none;
+    display: block;
+    margin: 5px auto;
+    text-align: center;
+    border: 2px solid #a205d1;
+    padding: 14px 10px;
+    width: 230px;
+    outline: none;
+   border-radius: 24px ;
+   transition: 0.25s;
+   color: white;
+
+
+}
+.box input[type = "email"]:focus{
+    width: 280px;
+    border-color: #fa1f97;
+}
+
+.box input[type = "text"], .box input[type = "password"]{
+    border: 0;
+    background: none;
+    display: block;
+    margin: 5px auto;
+    text-align: center;
+    border: 2px solid #a205d1;
+    padding: 14px 10px;
+    width: 230px;
+    outline: none;
+   border-radius: 24px ;
+   transition: 0.25s;
+   color: white;
+
+
+}
+.box input[type = "text"]:focus, .box input[type = "password"]:focus{
+    width: 280px;
+    border-color: #fa1f97;
+}
+.box button[type = "submit"]
+{
+    border: 0;
+    background: none;
+    display: block;
+    margin: 35px;
+    margin-left: 76px;
+
+    text-align: center;
+    border: 2px solid #fa1f97;
+    padding: 11px 35px;
+   
+    outline: none;
+   border-radius: 24px ;
+   transition: 0.25s;
+   cursor: pointer;
+   color: rgb(225, 0, 255);
+   font-weight: bold;
+   font-family: Comic Sans MS;
+
+
+}
+.box button[type = "submit"]:hover{
+    
+    background:  rgb(255, 0, 191);
+    color: white;
+}
+
+hr{
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+        
+    
+}
+::placeholder{
+    color: white;
+}
+.chechbox{
+    position: absolute;
+    bottom: 95px;
+    left:30px;
+
+}
+.box span{
+    color: #FFF;
+    font-size: 13px;
+    position: absolute;
+    right: 35px;
+    top: 333px;
+    
+}
+.box a{
+    color: #FFF;
+    font-size: 13px;
+    position: absolute;
+    left: 48px;
+}
+#login{
+    left:  50px;
+}
+#registry{
+    left: 450px;
+}
+.input-field{
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgb(141, 132, 132);
+    outline: none;
+    background: transparent;
+    
+
+
+}
+.box{
+    top: 180px;
+    position: absolute;
+    top: 160px;
+    width: 285px;
+    transition: .5s;
+    
+}
+
+
+
+
+
+
+/* code cho phần check input vào form */
+
+.form-control {
+	margin-bottom: 10px;
+	padding-bottom: 20px;
+	position: relative;
+}
+
+.form-control label {
+	display: inline-block;
+	margin-bottom: px;
+}
+
+.form-control input {
+	border: 2px solid #f0f0f0;
+	border-radius: 4px;
+	display: block;
+	font-family: inherit;
+	font-size: 14px;
+	padding: 10px;
+	width: 100%;
+}
+
+.form-control input:focus {
+	outline: 0;
+	border-color: #777;
+}
+
+.form-control.success input {
+	border-color: #2ecc71;
+}
+
+.form-control.error input {
+	border-color: #e74c3c;
+}
+
+
+
+
+.form-control small {
+	color: #e74c3c;
+	position: absolute;
+	bottom: 0;
+	left: 0px;
+	visibility: hidden;
+}
+
+.form-control.error small {
+	visibility: visible;
+}
+
+
+
+
+
+
+
