@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use App\Exceptions\Handler;
 
-class GetproductController extends Controller
+class GetcategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +17,9 @@ class GetproductController extends Controller
      */
     public function index()
     {
-        $pr= Product::all();
+        $pr= Category::all();
         return response()->json($pr, 200);
     }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -30,18 +29,29 @@ class GetproductController extends Controller
      */
     public function store(Request $request)
     {
-      
+        try
+        {
+            $category = new Category();
+            $category->categoryName = $request->categoryName;
+            $category->cate_description = $request->cate_description;
+            $category->save();
+            return response()->json($category, 201);   
+        }   
+        catch (Throwable $e ) { 
+            return $e->getMessage();      
+
+        }
     }
 
     /**
      * Display the specified resource.
-     *
+     *  
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return Product::find($id);
+        //
     }
 
     /**
@@ -53,7 +63,7 @@ class GetproductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //  
     }
 
     /**

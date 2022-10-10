@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::apiResource('getproducts','Api\GetproductController');
+Route::apiResource('getcategories', 'Api\GetcategoryController')->only(['index', 'show', 'store']);
