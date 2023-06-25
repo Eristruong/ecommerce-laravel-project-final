@@ -113,20 +113,25 @@ class CheckoutController extends Controller
                 Mail::to($customer->email)->send(new ShoppingMail($bills, $billdetails, $date, $name, $phonenumber));
 
 
-                // redicrect den vnpay
-                $vnp_TmnCode = "867ETWWS"; //Mã website tại VNPAY 
-                $vnp_HashSecret = "WIAJFTZTGBTULEORGCGESBOKVTSNZIKW"; //Chuỗi bí mật
-                $vnp_Url = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-                $vnp_Returnurl = "http://localhost:8080/weblinhkien/Return-Result";
-                $vnp_TxnRef = date("YmdHis"); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+                $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+                $vnp_Returnurl = "http://localhost/weblinhkien/Return-Result";
+                $vnp_TmnCode = "RM379I7H";//Mã website tại VNPAY 
+                $vnp_HashSecret = "INZIGVORFJXMAREEEUIFYWLXXKLEZGSW";//Chuỗi bí mật
+                
+                $vnp_TxnRef = rand(1,10000); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
+            
                 $vnp_OrderInfo = "Thanh toán hóa đơn phí dich vụ";
-                $vnp_OrderType = 'billpayment';
+                $vnp_OrderType = 'other';
                 $vnp_Amount = $cartInfor->totalPrice * 100;
                 $vnp_Locale = 'vn';
-                $vnp_IpAddr = request()->ip();
-        
+                // $vnp_BankCode = "NCB";
+                $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+                //Add Params of 2.0.1 Version
+                $startTime = date("YmdHis");
+                $vnp_ExpireDate = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
+
                 $inputData = array(
-                    "vnp_Version" => "2.0.0",
+                    "vnp_Version" => "2.1.0",
                     "vnp_TmnCode" => $vnp_TmnCode,
                     "vnp_Amount" => $vnp_Amount,
                     "vnp_Command" => "pay",
@@ -138,30 +143,34 @@ class CheckoutController extends Controller
                     "vnp_OrderType" => $vnp_OrderType,
                     "vnp_ReturnUrl" => $vnp_Returnurl,
                     "vnp_TxnRef" => $vnp_TxnRef,
+                
+                  
                 );
-        
+                
                 if (isset($vnp_BankCode) && $vnp_BankCode != "") {
                     $inputData['vnp_BankCode'] = $vnp_BankCode;
                 }
+        
+                
+                //var_dump($inputData);
                 ksort($inputData);
                 $query = "";
                 $i = 0;
                 $hashdata = "";
                 foreach ($inputData as $key => $value) {
                     if ($i == 1) {
-                        $hashdata .= '&' . $key . "=" . $value;
+                        $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
                     } else {
-                        $hashdata .= $key . "=" . $value;
+                        $hashdata .= urlencode($key) . "=" . urlencode($value);
                         $i = 1;
                     }
                     $query .= urlencode($key) . "=" . urlencode($value) . '&';
                 }
-        
+                
                 $vnp_Url = $vnp_Url . "?" . $query;
                 if (isset($vnp_HashSecret)) {
-                   // $vnpSecureHash = md5($vnp_HashSecret . $hashdata);
-                    $vnpSecureHash = hash('sha256', $vnp_HashSecret . $hashdata);
-                    $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
+                    $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
+                    $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
                 }
 
                 return redirect($vnp_Url);
@@ -176,3 +185,5 @@ class CheckoutController extends Controller
         $this->middleware('auth'); 
     }
 }
+
+

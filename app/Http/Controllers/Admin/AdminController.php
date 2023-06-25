@@ -13,8 +13,8 @@ class AdminController extends Controller
     public function index()
    {
    //c1 . Sử dụng view
-   $sql = "select * from v_quantity";
-   $quantity = DB::select($sql);
+//    $sql = "select * from v_quantity";
+//    $quantity = DB::select($sql);
    //c2 . sử dụng query buider
    /*
    $quantity = DB::table("categories)
@@ -23,6 +23,11 @@ class AdminController extends Controller
    ->groupby('categoryName')
    ->get();
    */
+  $quantity = DB::table("categories")
+   ->join('products','categories.categoryID','=','products.categoryID')
+   ->select('categoryName',DB::raw('count(products.productID) as quantity'))
+   ->groupby('categoryName')
+   ->get();
         return view('admin',['quantity'=>$quantity]);
     }
      public function find(Request $request)

@@ -76,8 +76,6 @@ class UsersController extends Controller
         $user = Users::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phonenumber = $request->phonenumber;
-        $user->address = $request->address;
         $user->save();
         return redirect()->route('user.index');
     }

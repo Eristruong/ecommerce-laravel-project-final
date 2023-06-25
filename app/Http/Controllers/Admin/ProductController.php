@@ -116,7 +116,20 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $comment = Comment::where('ProductID', $id)->first();
+        if($comment != Null){
+            Reply::where('comment_id', $comment->id)->delete();
+            Comment::where('ProductID', $id)->delete();
+        }
+        $prodetail = ProductDetail::where('productID', $id)->first();
+        if($prodetail != Null){
+            ProductDetail::where('productID', $id)->delete();
+        }
+
         $product = Product::find($id)->delete();
+     
+           
+    
         return redirect()->route('product.index'); 
     }
     public function __construct()

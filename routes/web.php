@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,15 @@ Route::get('laythongtin', function () {
   }
   else
   echo "Bạn chưa đăng nhập hệ thống !";
+});
+
+Route::get('download/{filename?}', function ($filename = "") {
+  $path = "public/upload/$filename";
+  if(!empty($filename))
+  {
+     return response()->download($path);
+  }
+
 });
 Route::get('login', function () {
   return view("auth.login");
