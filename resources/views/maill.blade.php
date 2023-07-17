@@ -150,7 +150,7 @@ Xem thông tin và tình trạng của đơn hàng tại đây:<br>
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: &quot;Comic Sans MS&quot;, &quot;Marker Felt-Thin&quot;, Arial, sans-serif; font-size: 16px; padding: 18px;">
-                                <a class="mcnButton " title="Xem đơn hàng của bạn" href="http://localhost:8080/weblinhkien/info/1" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Xem đơn hàng của bạn</a>
+                                <a class="mcnButton " title="Xem đơn hàng của bạn" href="http://localhost:80/weblinhkien/info/1" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Xem đơn hàng của bạn</a>
                             </td>
                         </tr>
                     </tbody>

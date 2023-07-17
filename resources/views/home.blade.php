@@ -1,17 +1,29 @@
 @extends('layout.user.main')
 
 @section('content')
-@if(Session::has('message'))
+@if(Session::has('suc-message'))
   <script type="text/javascript">
      swal({
          title:'Cảm ơn bạn đã mua hàng!',
-         text:"{{Session::get('message')}}",
+         text:"{{Session::get('suc-message')}}",
          button: "Đồng ý!",
          icon: "success"
      }).then((value) => {
        //location.reload();
      }).catch(swal.noop);
  </script>
+ @endif
+ @if (Session::has('err-message'))
+ <script type="text/javascript">
+  swal({
+      title:'Đơn hàng chưa được hoàn tất !',
+      text:"{{Session::get('er-message')}}",
+      button: "Đồng ý!",
+      icon: "error"
+  }).then((value) => {
+    //location.reload();
+  }).catch(swal.noop);
+</script>
  @endif
  <!-- slide trình chiếu -->
  <div class="container-fluid" style="height:150px"></div>

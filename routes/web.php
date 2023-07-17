@@ -50,6 +50,7 @@ Route::get('checkout', 'CheckoutController@getCheckOut');
 Route::post('Check-Out', 'CheckoutController@postCheckOut');
 // thanh toán trực tuyến vnpay
 Route::get('Return-Result', 'VnPayController@return');
+Route::get('Handle-vnpay', 'VnPayController@hanldevnpayment')->name('vnpay.handle');
 // điều hướng đến trang thông tin tài khoản
 Route::resources([
   'info'=>'UserController',
