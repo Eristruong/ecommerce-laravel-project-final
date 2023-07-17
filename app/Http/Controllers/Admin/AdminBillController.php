@@ -68,7 +68,7 @@ class AdminBillController extends Controller
     {
                      $customer = DB::table('customers')
                     ->join('bills', 'customers.id', '=', 'bills.customerID')
-                    ->select('customers.*', 'bills.bill_id as bill_id', 'bills.total as bill_total', 'bills.note as bill_note', 'bills.status as bill_status', 'bills.payment as bill_payment', 'bills.codevnpay as bill_codevnpay')
+                    ->select('customers.*', 'bills.bill_id as bill_id', 'bills.total as bill_total', 'bills.note as bill_note', 'bills.status as bill_status', 'bills.payment as bill_payment', 'bills.codevnpay as bill_codevnpay', 'bills.total_received as total_received', 'bills.total_remain as total_remain')
                     ->where('customers.id', '=', $id)
                     ->first();
 

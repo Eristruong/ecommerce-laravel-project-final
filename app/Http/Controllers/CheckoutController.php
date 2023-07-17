@@ -24,7 +24,7 @@ class CheckoutController extends Controller
     {
                 
         
-           if ($request->thanhtoan == "tienmat") {
+        
             $cartInfor = Session('Cart') ? Session('Cart') : null;
             // save
             $customer = new Customer();
@@ -42,11 +42,12 @@ class CheckoutController extends Controller
             $bill->date_order = date('Y-m-d H:i:s');
             $bill->total = str_replace(',', '', $cartInfor->totalPrice);
             $bill->note = $request->note;
+            $bill->total_remain = $bill->total;
             $bill->payment = 'Tiền mặt - chưa thành toán 10% giá trị đơn hàng';
             $bill->codevnpay = '';
             $bill->save();
    
-      
+            $request->Session()->put('bill' ,$bill);
 
             if (count( $cartInfor->products ) > 0) {    
                 foreach ($cartInfor->products as $item) {
@@ -72,28 +73,38 @@ class CheckoutController extends Controller
 
                 //case khách hàng đặt cọc trước 10% giá trị đơn hàng mới được thanh toán tiền mặt khi nhận hàng
 
+                $payment = $request->thanhtoan;
 
+                if ($payment == "tienmat") {
 
-             
-          Session::flash('suc-message', "Đơn hàng của bạn đang chờ được xử lí !");
-       
-          return redirect()->route('info.show', $request->id);
+                $request->Session()->put('payment' ,$payment);
+                Session::flash('suc-message', "Đơn hàng của bạn đang chờ được xử lí !");
+                 
+                $data = [
+                    'payment' => $payment,
+                    'cartInfo' => $cartInfor
+                ];
+                
+                 return redirect()->action('VnPayController@hanldevnpayment', ['data' => $data]);
+                }
+                else{
 
-
-           } else {
+          
             
-            $data = [
-                'id' => $request->id,
-                'name' => $request->name,
-                'email' => $request->email,
-                'address' => $request->address,
-                'phone_number' => $request->phonenumber,
-                'note' => $request->note 
-            ];
+                $data = [
+                   'id' => $request->id,
+                   'name' => $request->name,
+                   'email' => $request->email,
+                   'address' => $request->address,
+                   'phone_number' => $request->phonenumber,
+                   'note' => $request->note,
+                   'payment' => $payment,
+                   'cartInfo' => $cartInfor
+                ];
             return redirect()->action('VnPayController@hanldevnpayment', ['data' => $data]);
           
-           
-           }
+        
+        }
            
             
     

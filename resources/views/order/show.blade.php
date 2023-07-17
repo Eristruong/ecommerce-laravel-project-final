@@ -55,6 +55,14 @@
                         <td><b>Hình thức thanh toán</b></td>
                         <td>{{ $customer->bill_payment }}</td>
                     </tr>
+                    <tr>
+                        <td><b>Số tiền đã nhận - VNPAY</b></td>
+                        <td>{{ number_format($customer->total_received) }} đ</td>
+                    </tr>
+                    <tr>
+                        <td><b>Số tiền còn lại cần thanh toán</b></td>
+                        <td>{{ number_format($customer->total_remain) }} đ</td>
+                    </tr>
                     @if ($customer->bill_codevnpay != null)
                     <tr>
                         <td><b>Mã giao dịch VNPAY</b></td>

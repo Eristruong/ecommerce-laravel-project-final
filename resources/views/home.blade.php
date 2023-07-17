@@ -17,7 +17,7 @@
  <script type="text/javascript">
   swal({
       title:'Đơn hàng chưa được hoàn tất !',
-      text:"{{Session::get('er-message')}}",
+      text:"{{Session::get('err-message')}}",
       button: "Đồng ý!",
       icon: "error"
   }).then((value) => {

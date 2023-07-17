@@ -8,5 +8,5 @@ class Bill extends Model
 {
     protected $table = 'bills';
     protected $primaryKey = 'bill_id';
-    protected $fillable = ['bill_id','customerID','date_order','total','note','status','payment','codevnpay'];
+    protected $fillable = ['bill_id','customerID','date_order','total','note','status','total_received','total_remain','payment','codevnpay'];
 }

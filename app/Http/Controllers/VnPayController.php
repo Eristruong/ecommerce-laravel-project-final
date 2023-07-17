@@ -17,52 +17,8 @@ class VnPayController extends Controller
 {
     public function hanldevnpayment(Request $request)
     {    
-     
+    
        
-        $cartInfor = Session('Cart') ? Session('Cart') : null;
-        // save
-        $customer = new Customer();
-        $customer->userID = $request->data['id'];
-        $customer->name =  $request->data['name'];
-        $customer->email =  $request->data['email'];
-        $customer->address = $request->data['address'];
-        $customer->phone_number = $request->data['phone_number'];
-        $customer->note = $request->data['note'];
-        $customer->save();
-        
-
-        $bill = new Bill;
-        $bill->customerID = $customer->id;
-        $bill->date_order = date('Y-m-d H:i:s');
-        $bill->total = str_replace(',', '', $cartInfor->totalPrice);
-        $bill->note = $request->data['note'];
-      
-        $bill->save();
- 
-        $request->Session()->put('bill' ,$bill);
- 
-        
-        if (count( $cartInfor->products ) > 0) {
-            foreach ($cartInfor->products as $item) {
-                $billDetail = new BillDetail;
-                $billDetail->bill_id = $bill->bill_id;
-                $billDetail->productID = $item['productInfo']->productID;
-                $billDetail->quantily = $item['quanty'];
-                $billDetail->price = $item['price'];
-                $billDetail->save();
-            }
-        }
-      // del
-      $request->Session()->forget('Cart');
-      //gửi maill
-           $bills = $cartInfor;
-           $billdetails = $cartInfor->products;
-           $date = $bill->date_order;
-           $name = $customer->name;
-           $phonenumber = $customer->phone_number;
-            Mail::to($customer->email)->send(new ShoppingMail($bills, $billdetails, $date, $name, $phonenumber));
-
-
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             $vnp_Returnurl = "http://localhost/weblinhkien/Return-Result";
             $vnp_TmnCode = "RM379I7H";//Mã website tại VNPAY 
@@ -72,7 +28,8 @@ class VnPayController extends Controller
         
             $vnp_OrderInfo = "Thanh toán hóa đơn phí dich vụ";
             $vnp_OrderType = 'other';
-            $vnp_Amount = $cartInfor->totalPrice * 100;
+            $amount = $request->data['cartInfo']['totalPrice'] * 100;
+            $vnp_Amount =  ($request->data['payment'] == 'tienmat') ? ($amount / 10) : $amount;
             $vnp_Locale = 'vn';
             // $vnp_BankCode = "NCB";
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -129,12 +86,15 @@ class VnPayController extends Controller
     public function return(Request $request)
 {
 
+    $billinfo = Session('bill') ? Session('bill') : null;
     if($request->vnp_ResponseCode == "00") {
       
-        $billinfo = Session('bill') ? Session('bill') : null;
         if (isset($billinfo)) {
             $bill = Bill::find($billinfo -> bill_id);
-            $bill->payment = 'Trực tuyến';
+            //Session('payment') == true nếu có value là 'tienmat'
+            $bill->total_received = Session('payment') ? ($bill->total / 10) : $bill->total;
+            $bill->total_remain = Session('payment') ? ($bill->total - $bill->total_received) : 0;
+            $bill->payment = Session('payment') ? 'Tiền mặt - đã thanh toán 10% giá trị đơn hàng' : 'Trực tuyến';
             $bill->codevnpay = $request->vnp_TransactionNo;
             $bill->save();
             Session::flash('suc-message', "Đã thanh toán dịch vụ !");
@@ -143,14 +103,21 @@ class VnPayController extends Controller
         }
             
               $request->Session()->forget('bill');
+              $request->Session()->forget('payment');
               return redirect()->route('home');
     }
     
-    Bill::all()->last()->delete();
-    BillDetail::all()->last()->delete();
-    Customer::all()->last()->delete();
+    Bill::find($billinfo->bill_id)->delete();
+    BillDetail::where('bill_id', $billinfo->bill_id)->delete();
+    Customer::where('id', $billinfo->customerID)->delete();
     $request->Session()->forget('bill');
-    Session::flash('err-message', "Lỗi trong quá trình thanh toán phí dịch vụ - vnpay");
+    if(Session('payment')){
+        $request->Session()->forget('payment');
+        Session::flash('err-message', "Đơn hàng chưa hoàn tất, vui lòng thanh toán trước 10% giá trị đơn hàng");
+    }else{
+        Session::flash('err-message', "Lỗi trong quá trình thanh toán phí dịch vụ - vnpay");
+    }
+   
        
     return redirect()->route('home');
     /*
