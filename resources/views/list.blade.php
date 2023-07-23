@@ -76,6 +76,7 @@
          type: 'GET',
          url: 'Delete-List-Item-Cart/'+productID,
          }).done(function (response) {
+            console.log(response);
            RenderListCart(response);
            alertify.success('Đã xóa sản phẩm');
          });

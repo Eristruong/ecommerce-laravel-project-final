@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin'], function () {
         'product'=>'ProductController',
         'user'=>'UsersController',
         'bill'=>'AdminBillController',
+        'sold'=>'SoldBillController',
         'banner'=>'BannerController',
         'prodetail'=>'ProductdetailController'
     ]);
@@ -111,3 +112,7 @@ Route::get('orderdetail', function () {
     
 })->name('orderdetail')->middleware('UserRole');
 
+Route::get('/sync-provinces', 'ProvinceController@syncDataFromAPI');
+
+Route::post('/process-selected-idprovince', 'CheckoutController@getDistbyIdPro')->name('process.selectidpro');
+Route::post('/process-selected-idward', 'CheckoutController@getWardbyIdPro')->name('process.selectidward');

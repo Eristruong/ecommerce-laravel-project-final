@@ -5,33 +5,80 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillDetail;
 use App\Customer;
+use App\Province;
+use App\District;
+use App\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PHPUnit\Framework\Constraint\Count;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ShoppingMail;
+use Illuminate\Support\Facades\Http;
 
 
 class CheckoutController extends Controller
 {
     public function getCheckOut() 
     { 
-       return view('checkout');
+       $provinces = Province::all();
+
        
+
+       return view('checkout',['provinces' => $provinces]);
+       
+    }
+    public function getDistbyIdPro(Request $request)
+    {
+        // Xử lý giá trị được gửi từ AJAX và trả về response tương ứng.
+        $ProvinceID = $request->input('selectedValue');
+        $response = District::where('ProvinceID', $ProvinceID)->get();
+                 
+   
+        return response()->json($response);
+    }
+    public function getWardbyIdPro(Request $request)
+    {
+        $DistrictID = $request->input('selectedValue');
+        
+        $url = 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id='.$DistrictID;
+
+   
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'token' => 'e7a8f89e-2551-11ee-a6e6-e60958111f48',
+        ])->get($url);
+  
+       
+        if ($response->successful()) {
+            $data = $response->json();
+           
+       
+
+            return response($data['data']);
+        }
     }
 
     public function postCheckOut(Request $request) 
     {
                 
-        
+      
         
             $cartInfor = Session('Cart') ? Session('Cart') : null;
             // save
+
+            $address = new Address();
+            $address->idProvince = $request->provinceSelect;
+            $address->idDistrict = $request->districtSelect;
+            $address->wardCode = strtok($request->wardSelect, "-");
+            $address->WardName = strtok("-");
+            $address->address = $request->address;
+            $address->save();
+
             $customer = new Customer();
             $customer->userID = $request->id;
             $customer->name =  $request->name;
             $customer->email =  $request->email;
-            $customer->address = $request->address;
+            $customer->IdAddress = $address->id;
             $customer->phone_number = $request->phonenumber;
             $customer->note = $request->note;
             $customer->save();
@@ -92,12 +139,7 @@ class CheckoutController extends Controller
           
             
                 $data = [
-                   'id' => $request->id,
-                   'name' => $request->name,
-                   'email' => $request->email,
-                   'address' => $request->address,
-                   'phone_number' => $request->phonenumber,
-                   'note' => $request->note,
+                
                    'payment' => $payment,
                    'cartInfo' => $cartInfor
                 ];

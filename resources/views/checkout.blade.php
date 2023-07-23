@@ -39,8 +39,36 @@
                      <input type="text" name="phonenumber" id="phonenumber" class="form-control" value="{{ Auth::user()->phonenumber }}">
                   </div>
                   <div class="form-group">
+                     <div class="row">
+                        <div class="col">
+                           <label for="address" style="font-weight: bold">Tỉnh thành</label>
+                           <select id="mySelect" name="provinceSelect" class="form-control input-inline mr-2" style="width: 200px">
+                              <option selected>chọn tỉnh thành</option>
+                              @foreach ($provinces as $province)
+                              <option value="{{$province->ProvinceID}}">{{$province->ProvinceName}}</option>
+                             @endforeach
+                          </select>
+                        </div>
+                     <div class="col">
+                        <label for="address" style="font-weight: bold">Quận huyện</label>
+                        <select id="districtSelect" name="districtSelect" class="form-control input-inline mr-2" style="width: 200px">
+                           <option selected>chọn quận huyện</option>
+                        
+                       </select>
+                     </div>
+                     <div class="col">
+                        <label for="address" style="font-weight: bold">Phường xã</label>
+                        <select id="wardSelect" name="wardSelect" class="form-control input-inline mr-2" style="width: 200px">
+                           <option selected>chọn phường xã</option>
+                         
+                       </select>
+                     </div>
+                     </div>
+                    
+                  </div>
+                  <div class="form-group">
                      <label for="address" style="font-weight: bold">Địa chỉ</label>
-                     <input type="text" name="address" id="address" class="form-control" value="{{ Auth::user()->address}}">
+                     <input type="text" name="address" id="address" class="form-control" value="">
                   </div>
                </div>
                <div class="col-sm-4">
@@ -101,16 +129,11 @@
                                  <td>
                                  </td>
                                  <td>
-                                    <div class="form-check">
-                                       <label class="form-check-label" for="radio1">
-                                         <input type="radio" class="form-check-input" id="radio1" name="thanhtoan" value="tienmat" checked><b>Thanh toán tại nhà</b>
-                                       </label>
-                                     </div>
-                                     <div class="form-check">
-                                       <label class="form-check-label" for="radio2">
-                                         <input type="radio" class="form-check-input" id="radio2" name="thanhtoan" value="tructuyen"><b>Thanh toán trực tuyến</b>
-                                       </label>
-                                     </div>
+                                     <label><b>Phương thức thanh toán</b>: </label>
+                                     <select name="thanhtoan" class="form-control input-inline mr-2" style="width: 200px">
+                                         <option value="tienmat">Tiền mặt</option>
+                                         <option value="tructuyen">Trực tuyến</option>
+                                     </select>
                                     <div class="form-group">
                                        <input type="submit" class="btn btn-info btn-xl mt-3" value="Gửi đơn hàng">
                                     </div>
@@ -138,4 +161,86 @@
       </form>
    </div>
 </div>
+
+<script>
+
+  // Hàm được gọi khi danh sách chọn thay đổi giá trị
+  function handleSelectProvince() {
+   var selectedValue = $("#mySelect").val();
+   
+   // Gửi giá trị được chọn bằng AJAX đến Laravel controller
+   $.ajax({
+      url: "{{ route('process.selectidpro') }}",
+      type: "POST",
+      headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      },
+      data: {
+         "_token" : "{{ csrf_token() }}",
+        "selectedValue": selectedValue
+      },
+      dataType: "json",
+      success: function(data) {
+        // Nhận và xử lý response
+
+        // Ví dụ: Cập nhật danh sách chọn khác với dữ liệu response
+        var otherSelectElement = $("#districtSelect");
+        otherSelectElement.empty(); // Xóa tất cả các tùy chọn hiện có trong danh sách chọn khác.
+
+        // Thêm các tùy chọn mới vào danh sách chọn khác
+        for (var i = 0; i < data.length; i++) {
+          var option = $("<option>").val(data[i].DistrictID).text(data[i].DistrictName);
+            console.log(option)
+          otherSelectElement.append(option);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("Lỗi AJAX:", error);
+      }
+    });
+  }
+
+  function handleSelectDistrict() {
+   var selectedValue = $("#districtSelect").val();
+
+// Gửi giá trị được chọn bằng AJAX đến Laravel controller
+$.ajax({
+      url: "{{ route('process.selectidward') }}",
+      type: "POST",
+      headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      },
+      data: {
+         "_token" : "{{ csrf_token() }}",
+        "selectedValue": selectedValue
+      },
+      dataType: "json",
+      success: function(data) {
+        // Nhận và xử lý response
+        console.log("Response từ server:", data);
+
+        // Ví dụ: Cập nhật danh sách chọn khác với dữ liệu response
+        var otherSelectElement = $("#wardSelect");
+        otherSelectElement.empty(); // Xóa tất cả các tùy chọn hiện có trong danh sách chọn khác.
+
+        // Thêm các tùy chọn mới vào danh sách chọn khác
+        for (var i = 0; i < data.length; i++) {
+          let WardName = data[i].WardName;
+          let WardCode = data[i].WardCode;
+          var option = $("<option>").val(WardCode.concat("-", WardName)).text(WardName);
+            console.log(option)
+          otherSelectElement.append(option);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("Lỗi AJAX:", error);
+      }
+    });
+}
+
+   // Gán hàm handleSelectChange() vào sự kiện "change" của danh sách chọn
+   $("#districtSelect").on("change", handleSelectDistrict);
+   $("#mySelect").on("change", handleSelectProvince);
+</script>
+
 @endsection

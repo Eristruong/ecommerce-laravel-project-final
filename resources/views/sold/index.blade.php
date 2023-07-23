@@ -32,7 +32,7 @@
         @foreach($customers as $customer)
         <tr>
           <td>{{ $customer->name }}</td>
-          <td>{{ $customer->date_order }}</td> 
+          <td>{{ $customer->created_at }}</td> 
           <td>{{ $customer->email }}</td>
              <td>
                {{ $customer->status }}
@@ -40,7 +40,7 @@
           
           <td> 
             <a class="button btn btn-success" href="{{ route('bill.edit',$customer->id) }}"><i class="fas fa-info-circle"></i> Chi tiết</a>
-            <form class="d-inline-block " action="{{  route('bill.destroy',$customer->bill_id) }}" method="post" >
+            <form class="d-inline-block " action="{{  route('bill.destroy',$customer->id) }}" method="post" >
               {{ csrf_field() }}
               @method('DELETE')
               {{-- HTML không có các method PUT, PATCH, DELETE, nên cần dùng lệnh @method để có thể gán các method này --}}

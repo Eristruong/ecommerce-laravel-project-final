@@ -21,7 +21,7 @@ class AdminBillController extends Controller
     {
         $customers = DB::table('customers')
                     ->join('bills', 'customers.id', '=', 'bills.customerID')
-                    ->select('customers.*', 'bills.status as status')
+                    ->select('customers.*', 'bills.status as status','bills.date_order as date_order','bills.bill_id as bill_id')
                     ->get();
       return view('order.index',['customers'=>$customers]);
     }
@@ -108,9 +108,11 @@ class AdminBillController extends Controller
      */
     public function destroy($id)
     {   
-        BillDetail::where('bill_id', $id)->delete();
-        Bill::where('customerID', $id)->delete();
-        Customer::find($id)->delete();
+   
+        $Bill = Bill::where('bill_id', $id)->first();
+        BillDetail::where('bill_id', $Bill->bill_id)->delete();
+        Customer::find($Bill->customerID)->delete();
+        Bill::where('bill_id', $Bill->bill_id)->delete();//
         Session::flash('message', "Đã xóa thành công đơn hàng");
 
         return redirect()->route('bill.index');

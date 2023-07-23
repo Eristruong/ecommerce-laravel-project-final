@@ -3,7 +3,7 @@
 <div class="container jumbotron   border border-success">
     <h2>Danh mục sản phẩm quản lý</h2>
            
-    <table class="table">
+    <table class="table border border-grey rounded-lg bg-white table-hover">
       <thead class="bg-danger text-white"> 
         <tr>
           <th>Tên sản phẩm</th>

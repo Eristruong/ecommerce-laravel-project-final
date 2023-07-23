@@ -20,6 +20,7 @@ class CreateBillsTable extends Migration
             $table->double('total');
             $table->string('note')->nullable();
             $table->string('status')->default('Chưa xử lí');
+            
             $table->timestamps();
         });
     }
