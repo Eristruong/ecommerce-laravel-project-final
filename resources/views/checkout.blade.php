@@ -80,7 +80,7 @@
             </div>
          </div>
          <div class="col-sm-12">
-            <table class="table table-hover">
+            <table class="table">
                <thead class="bg-info text-white">
                   <tr>
                      <th></th>
@@ -122,20 +122,54 @@
                         <table class="table table-condensed total-result">
                            <tbody>
                               <tr>
-                                 <td class="font-weight-bold text-info">Tổng tiền :</td>
-                                 <td class="font-italic text-danger"><h5>{{number_format(Session::get('Cart')->totalPrice)}}₫</h5></td>
+                                 <td colspan="2" class="font-weight">Chi phí vận chuyển :</td>
+                                 <td class="" id="shipfee">
+                                    <h6>0</h6>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td colspan="2" class="font-weight-bold text-info">Tổng tiền :</td>
+                                 <td id="totalfee" class="font-italic text-danger"><h5>{{number_format(Session::get('Cart')->totalPrice)}}₫</h5></td>
                               </tr>
                               <tr>
                                  <td>
                                  </td>
                                  <td>
-                                     <label><b>Phương thức thanh toán</b>: </label>
-                                     <select name="thanhtoan" class="form-control input-inline mr-2" style="width: 200px">
-                                         <option value="tienmat">Tiền mặt</option>
-                                         <option value="tructuyen">Trực tuyến</option>
-                                     </select>
-                                    <div class="form-group">
-                                       <input type="submit" class="btn btn-info btn-xl mt-3" value="Gửi đơn hàng">
+                                    <div class="row">
+                                       <div class="col">
+                                          <div class="row mt-2">
+                                            <div class="col-sm-8">
+                                             <label><b>Phương thức thanh toán</b>: </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                             <select name="thanhtoan" class="form-control input-inline mr-2" style="width: 200px">
+                                                <option value="tienmat">Tiền mặt - cọc 10%</option>
+                                                <option value="tructuyen">Trực tuyến</option>
+                                            </select>
+                                            </div>
+                                          </div>
+                                        
+                                    
+                                       </div>
+                                       <div class="col mt-3">
+                                          <div class="row">
+                                             <div class="col-sm-8">
+                                                <label><b>Phương thức vận chuyển</b>: </label>
+                                             </div>
+                                             <div class="col-sm-4">
+                                                <select id="orderfee" name="vanchuyen" class="form-control input-inline mr-2" style="width: 200px">
+                                                   <option value="ghn">Chọn dịch vụ vận chuyển</option>
+                                                   <option value="ghn">Giao hàng nhanh - GHN</option>
+                                                 
+                                               </select>
+                                               <div class="form-group ">
+                                                <input type="submit" class="btn btn-info btn-xl mt-3" value="Gửi đơn hàng">
+                                             </div>
+                                             </div>
+                                          </div>
+                                        
+                                       
+                                       </div>
                                     </div>
                                  </td>
                                  <td>
@@ -190,7 +224,7 @@
         // Thêm các tùy chọn mới vào danh sách chọn khác
         for (var i = 0; i < data.length; i++) {
           var option = $("<option>").val(data[i].DistrictID).text(data[i].DistrictName);
-            console.log(option)
+            // console.log(option)
           otherSelectElement.append(option);
         }
       },
@@ -217,7 +251,7 @@ $.ajax({
       dataType: "json",
       success: function(data) {
         // Nhận và xử lý response
-        console.log("Response từ server:", data);
+      //   console.log("Response từ server:", data);
 
         // Ví dụ: Cập nhật danh sách chọn khác với dữ liệu response
         var otherSelectElement = $("#wardSelect");
@@ -228,7 +262,7 @@ $.ajax({
           let WardName = data[i].WardName;
           let WardCode = data[i].WardCode;
           var option = $("<option>").val(WardCode.concat("-", WardName)).text(WardName);
-            console.log(option)
+            // console.log(option)
           otherSelectElement.append(option);
         }
       },
@@ -238,7 +272,49 @@ $.ajax({
     });
 }
 
+
+   function getShippingOrderFee()
+   {
+      var cartTotalPrice = {{ Session::get('Cart')->totalPrice }};
+      var IdDistrict = $("#districtSelect").val();
+      var WardCode = $("#wardSelect").val().split("-")[0];
+      
+      // Gửi giá trị được chọn bằng AJAX đến Laravel controller
+$.ajax({
+      url: "{{ route('process.getorderfee') }}",
+      type: "POST",
+      headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      },
+      data: {
+         "_token" : "{{ csrf_token() }}",
+        "IdDistrict": IdDistrict,
+        "WardCode": WardCode
+      },
+      dataType: "json",
+      success: function(data) {
+        // Nhận và xử lý response
+        console.log("Response từ server:", data);
+
+        const shipFee = data.service_fee;
+        const numericValue = parseFloat(shipFee);
+        // Render lại nội dung của thẻ <td> với giá trị mới
+         const shipFeeElement = document.getElementById('shipfee');
+        shipFeeElement.innerHTML = `<h6>${numericValue.toLocaleString()}đ</h6>`;
+        console.log(cartTotalPrice);
+        const totalfeeElement = document.getElementById('totalfee');
+        cartTotalPrice += numericValue;
+        totalfeeElement.innerHTML = `<h5>${cartTotalPrice.toLocaleString()}đ</h5>`
+      },
+      error: function(xhr, status, error) {
+        console.error("Lỗi AJAX:", error);
+      }
+    });
+   }
+
+
    // Gán hàm handleSelectChange() vào sự kiện "change" của danh sách chọn
+   $("#orderfee").on("change", getShippingOrderFee);
    $("#districtSelect").on("change", handleSelectDistrict);
    $("#mySelect").on("change", handleSelectProvince);
 </script>

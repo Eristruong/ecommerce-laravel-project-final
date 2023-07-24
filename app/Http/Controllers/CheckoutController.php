@@ -58,6 +58,47 @@ class CheckoutController extends Controller
         }
     }
 
+    public function getShippingOrderFee(Request $request)
+    {
+        $to_district_id = $request->input('IdDistrict');
+        $to_ward_code = $request->input('WardCode');
+
+
+        $url = 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee';
+        $token = 'e7a8f89e-2551-11ee-a6e6-e60958111f48';
+        $shopId = '125212';
+
+        $data = [
+            "service_id" => 53320,
+            "service_type_id" => null,
+            "to_district_id" => (int)$to_district_id,
+            "to_ward_code" => $to_ward_code,
+            "height" => 50,
+            "length" => 20,
+            "weight" => 200,
+            "width" => 20,
+            "cod_failed_amount" => 2000,
+            "insurance_value" => 10000,
+            "coupon" => null,
+        ];
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Token' => $token,
+            'ShopId' => $shopId,
+        ])->post($url, $data);
+
+        if ($response->successful()) {
+            $res = $response->json();
+            
+       
+           
+            return response($res['data']);
+        }else{
+            return response($response);
+        }
+
+    }
+
     public function postCheckOut(Request $request) 
     {
                 
@@ -148,9 +189,6 @@ class CheckoutController extends Controller
         
         }
            
-            
-    
-
     }
     public function __construct()
     {

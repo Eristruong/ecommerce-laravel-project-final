@@ -116,3 +116,4 @@ Route::get('/sync-provinces', 'ProvinceController@syncDataFromAPI');
 
 Route::post('/process-selected-idprovince', 'CheckoutController@getDistbyIdPro')->name('process.selectidpro');
 Route::post('/process-selected-idward', 'CheckoutController@getWardbyIdPro')->name('process.selectidward');
+Route::post('/shipping-order-fee', 'CheckoutController@getShippingOrderFee')->name('process.getorderfee');
