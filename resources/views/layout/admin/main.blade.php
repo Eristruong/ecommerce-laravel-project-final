@@ -18,6 +18,9 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
   <script src="{{ asset('public/backend/plugins/jquery/jquery.min.js') }}"></script>
+  
+  <script src="{{ asset("public/frontend/bootstrap-4.0.0-dist/jq/jquery-3.5.1.min.js") }}"></script>
+  <script src="{{ asset("public/frontend/bootstrap-4.0.0-dist/jq/jquery-3.5.1.js") }}"></script>
 <!-- Bootstrap -->
 <script src="{{ asset('public/backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE -->

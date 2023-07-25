@@ -2,17 +2,30 @@
 @section('content')
 
 <div class="container jumbotron border border-success">
-  @if(Session::has('message'))
+  @if(Session::has('suc-message'))
   <script type="text/javascript">
      swal({
          title:'Thành công!',
-         text:"{{Session::get('message')}}",
+         text:"{{Session::get('suc-message')}}",
          timer:5000,
          type:'success'
      }).then((value) => {
        //location.reload();
      }).catch(swal.noop);
  </script>
+ @endif
+
+ @if (Session::has('err-message'))
+ <script type="text/javascript">
+  swal({
+      title:'Đơn hàng chưa được hoàn tất !',
+      text:"{{Session::get('err-message')}}",
+      button: "Đồng ý!",
+      icon: "error"
+  }).then((value) => {
+    //location.reload();
+  }).catch(swal.noop);
+</script>
  @endif
     <h2>Danh sách các đơn hàng</h2>
            

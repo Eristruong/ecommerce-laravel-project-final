@@ -43,7 +43,7 @@
                             </tr>
                             <tr>
                                 <td><b>Địa chỉ</b></td>
-                                <td>{{ $customer->address }}</td>
+                                <td>{{ $addresses['address'] }}</td>
                             </tr>
                             <tr>
                                 <td><b>Email</b></td>
@@ -105,18 +105,100 @@
    
            
     <div class="col-sm-4">
-        <div class="col-md-12">
+        <div class="col-md-12 ml-4">
             <form action="{{  route('bill.update',$customer->bill_id) }}" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 {{ csrf_field() }}
-        
-               
-                    <div class="form-inline">
+                <h4>Tạo vận đơn cho nhà vận chuyển</h4>
+                <br> 
+                <h5>Địa chỉ người nhận hàng: </h5>
+               <div class="row mt-4">
+           
+                      <div class="col">
+                        <label>Tỉnh thành: </label>
+                        <select name="provinceID" id="mySelect" class="form-control">
+                            @foreach ($provinces as $province)
+                            <option value="{{ $province->ProvinceID }}" {{ ($province->ProvinceID==$customer->address->idProvince)?'selected':''}}>
+                            {{ $province->ProvinceName }}
+                            </option>
+                                
+                            @endforeach
+                        </select>
+                      </div>
+
+                      <div class="col">
+                        <label>Quận huyện: </label>
+                        <select name="districtID" id="districtSelect" class="form-control">
+                            <option value="">Chọn quận huyện</option>
+                            
+                        </select>
+                      </div>
+               </div>
+               <div class="row mt-3">
+                <div class="col">
+                    <label>Phường xã: </label>
+                    <select name="wardID" id="wardSelect" class="form-control">
+                        <option value="">Chọn phường xã</option>
+                    </select>
+                  </div>
+                  <div class="col form-group">
+                    <label>Địa chỉ: </label>
+                     <input type="text" name="address" id="" value="" class="form-control">
+                  </div>
+               </div>
+               <br>
+               <h5>Thông tin đóng gói cho đơn hàng: </h5>
+               <div class="row">
+            
+                <div class="col form-group">
+                    <label>Cận nặng gói hàng: </label>
+                    <input type="text"  name="weight" id="" value="" class="form-control" placeholder="đơn vị gram">
+
+                </div>
+                <div class="col form-group">
+                    <label>Chiều dài gói hàng: </label>
+                    <input type="text"  name="length" id="" value="" class="form-control" placeholder="tối đa 150cm">
+                </div>
+               </div>
+               <div class="row">
+
+                <div class="col form-group">
+                    <label>Chiều rộng gói hàng: </label>
+                    <input type="text"  name="width" id="" value="" class="form-control" placeholder="tối đa 150cm">
+
+                  </div>
+                  <div class="col form-group">
+                    <label>Chiều cao gói hàng: </label>
+                    <input type="text"  name="height" id="" value="" class="form-control" placeholder="tối đa 150cm">
+                  </div>
+
+               </div>
+               <div class="row">
+                  <div class="col">
+                      <Label>Cho xem hàng</Label>
+                      <select name="ordercheck" id="" class="form-control">
+
+                        <option value="CHOTHUHANG">Cho xem hàng</option>
+                        <option value="KHONGCHOXEMHANG">Không cho xem hàng</option>
+                      </select>
+                  </div>
+               </div>
+               <div class="row mt-3">
+                 <div class="col">
+                    <Label>Ghi chú</Label>
+                    <input type="text" name="note" id="" class="form-control">
+                 </div>
+               </div>
+
+
+
+
+                    <div class="form-inline mt-4">
                         <label>Trạng thái giao hàng: </label>
                         <select name="status" class="form-control input-inline mr-2" style="width: 200px">
                             <option value="Chưa giao">Chưa giao</option>
                             <option value="Đang Giao">Đang giao</option>
-                            <option value="Đã giao">Đã giao</option>
+                            {{-- <option value="Đã giao">Đã giao</option> --}}
                         </select>
     
                         <input type="submit" value="Xử lý" class="btn btn-primary">
@@ -133,4 +215,128 @@
     </div>
    
     
+<script>
+
+function handleSelectProvince() {
+   var selectedValue = $("#mySelect").val();
+
+   
+   // Gửi giá trị được chọn bằng AJAX đến Laravel controller
+   $.ajax({
+      url: "{{ route('process.selectidpro') }}",
+      type: "POST",
+      headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      },
+      data: {
+         "_token" : "{{ csrf_token() }}",
+        "selectedValue": selectedValue
+      },
+      dataType: "json",
+      success: function(data) {
+        // Nhận và xử lý response
+
+        // Ví dụ: Cập nhật danh sách chọn khác với dữ liệu response
+        var otherSelectElement = $("#districtSelect");
+        otherSelectElement.empty(); // Xóa tất cả các tùy chọn hiện có trong danh sách chọn khác.
+
+        // Thêm các tùy chọn mới vào danh sách chọn khác
+        for (var i = 0; i < data.length; i++) {
+          var option = $("<option>").val(data[i].DistrictID).text(data[i].DistrictName);
+            // console.log(option)
+          otherSelectElement.append(option);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("Lỗi AJAX:", error);
+      }
+    });
+  }
+
+  function handleSelectDistrict() {
+   var selectedValue = $("#districtSelect").val();
+
+// Gửi giá trị được chọn bằng AJAX đến Laravel controller
+$.ajax({
+      url: "{{ route('process.selectidward') }}",
+      type: "POST",
+      headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      },
+      data: {
+         "_token" : "{{ csrf_token() }}",
+        "selectedValue": selectedValue
+      },
+      dataType: "json",
+      success: function(data) {
+        // Nhận và xử lý response
+      //   console.log("Response từ server:", data);
+
+        // Ví dụ: Cập nhật danh sách chọn khác với dữ liệu response
+        var otherSelectElement = $("#wardSelect");
+        otherSelectElement.empty(); // Xóa tất cả các tùy chọn hiện có trong danh sách chọn khác.
+
+        // Thêm các tùy chọn mới vào danh sách chọn khác
+        for (var i = 0; i < data.length; i++) {
+          let WardName = data[i].WardName;
+          let WardCode = data[i].WardCode;
+          var option = $("<option>").val(WardCode.concat("-", WardName)).text(WardName);
+            // console.log(option)
+          otherSelectElement.append(option);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("Lỗi AJAX:", error);
+      }
+    });
+}
+
+function getShippingOrderFee()
+   {
+      var cartTotalPrice = {{ $customer->bill_total }};
+      var IdDistrict = $("#districtSelect").val();
+      var WardCode = $("#wardSelect").val().split("-")[0];
+      
+      // Gửi giá trị được chọn bằng AJAX đến Laravel controller
+$.ajax({
+      url: "{{ route('process.getorderfee') }}",
+      type: "POST",
+      headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+      },
+      data: {
+         "_token" : "{{ csrf_token() }}",
+        "IdDistrict": IdDistrict,
+        "WardCode": WardCode
+      },
+      dataType: "json",
+      success: function(data) {
+        // Nhận và xử lý response
+        console.log("Response từ server:", data);
+
+        const shipFee = data.service_fee;
+        const numericValue = parseFloat(shipFee);
+        // Render lại nội dung của thẻ <td> với giá trị mới
+         const shipFeeElement = document.getElementById('shipfee');
+        shipFeeElement.innerHTML = `<h6>${numericValue.toLocaleString()}đ</h6>`;
+        console.log(cartTotalPrice);
+        const totalfeeElement = document.getElementById('totalfee');
+        cartTotalPrice += numericValue;
+        totalfeeElement.innerHTML = `<h5>${cartTotalPrice.toLocaleString()}đ</h5>`
+      },
+      error: function(xhr, status, error) {
+        console.error("Lỗi AJAX:", error);
+      }
+    });
+   }
+
+
+
+  // Gán hàm handleSelectChange() vào sự kiện "change" của danh sách chọn
+
+  $("#mySelect").on("change", handleSelectProvince);
+  $("#districtSelect").on("change", handleSelectDistrict);
+
+</script>
+
 @endsection

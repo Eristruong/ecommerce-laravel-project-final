@@ -109,13 +109,19 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{ route('bill.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-clipboard-list nav-icon"></i>
                   <p>Xác nhận đơn hàng</p>
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ route('bill.shipping') }}" class="nav-link">
+                  <i class="fas fa-shipping-fast nav-icon"></i>
+                  <p>Đơn hàng đang giao - GHN</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('sold.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-clipboard"></i>
+                  <i class="nav-icon fas fa-clipboard-check"></i>
                   <p>Đơn hàng đã bán</p>
                 </a>
               </li>
