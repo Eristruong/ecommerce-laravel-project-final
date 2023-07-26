@@ -120,7 +120,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('sold.index') }}" class="nav-link">
+                <a href="{{ route('bill.sold') }}" class="nav-link">
                   <i class="nav-icon fas fa-clipboard-check"></i>
                   <p>Đơn hàng đã bán</p>
                 </a>

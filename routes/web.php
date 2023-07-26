@@ -118,4 +118,7 @@ Route::post('/process-selected-idprovince', 'CheckoutController@getDistbyIdPro')
 Route::post('/process-selected-idward', 'CheckoutController@getWardbyIdPro')->name('process.selectidward');
 Route::post('/shipping-order-fee', 'CheckoutController@getShippingOrderFee')->name('process.getorderfee');
 Route::get('/index-bill-shipping', 'Admin\AdminBillController@indexshipping')->name('bill.shipping');
-Route::get('/detail-bill-shipping', 'Admin\AdminBillController@detailshipping')->name('detail.shipping');
+route::get('/index-bill-sold', 'Admin\AdminBillController@soldBill')->name('bill.sold');
+Route::get('/detail-bill-shipping/{id}', 'Admin\AdminBillController@detailshipping')->name('detail.shipping');
+Route::post('/update-status-order-shipping', 'Admin\AdminBillController@updateShippingStatus')->name('status.shipping');
+Route::get('cancel-order-ghn/{ordercode}', 'Admin\AdminBillController@cancelOrderGHN')->name('cancel.shipping');

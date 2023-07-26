@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Shipping;
 use Illuminate\Http\Request;
 use App\Users;
 use Illuminate\Support\Facades\DB;
@@ -106,8 +107,8 @@ class UserController extends Controller
         $user = Users::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phonenumber = $request->phonenumber;
-        $user->address = $request->address;
+        // $user->phonenumber = $request->phonenumber;
+        // $user->address = $request->address;
         $user->save();
         return view('infouser');
     }
@@ -121,6 +122,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         BillDetail::where('bill_id', $id)->delete();
+        Shipping::where('bill_id', $id)->delete();
         Bill::where('customerID', $id)->delete();
         Customer::find($id)->delete();
         Session::flash('message', "Cảm ơn bạn đã tin tưởng mua sản phẩm từ chúng tôi !");

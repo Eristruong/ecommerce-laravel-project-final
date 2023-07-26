@@ -106,99 +106,195 @@
            
     <div class="col-sm-4">
         <div class="col-md-12 ml-4">
-            <form action="{{  route('bill.update',$customer->bill_id) }}" method="POST">
-                <input type="hidden" name="_method" value="PUT">
-                {{ csrf_field() }}
-                <h4>Tạo vận đơn cho nhà vận chuyển</h4>
-                <br> 
-                <h5>Địa chỉ người nhận hàng: </h5>
-               <div class="row mt-4">
-           
-                      <div class="col">
-                        <label>Tỉnh thành: </label>
-                        <select name="provinceID" id="mySelect" class="form-control">
-                            @foreach ($provinces as $province)
-                            <option value="{{ $province->ProvinceID }}" {{ ($province->ProvinceID==$customer->address->idProvince)?'selected':''}}>
-                            {{ $province->ProvinceName }}
-                            </option>
-                                
-                            @endforeach
-                        </select>
-                      </div>
-
-                      <div class="col">
-                        <label>Quận huyện: </label>
-                        <select name="districtID" id="districtSelect" class="form-control">
-                            <option value="">Chọn quận huyện</option>
+           @if ($customer->bill_status == 'Đang Giao')
+           <form action="{{  route('status.shipping',$customer->bill_id) }}" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            {{ csrf_field() }}
+            <h4>Thông tin vận đơn của đơn hàng</h4>
+            <div class="row mt-4 border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Mã vận đơn - GHN: </label>
+              </div>
+              <div class="col mt-2">
+                 {{ $shipping->order_code }}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Loại gói dịch vụ: </label>
+              </div>
+              <div class="col mt-2">
+                {{ ($resData['service_type_id'] == '2') ? 'Chuyển phát thương mại điện tử' : 'Chuyển phát truyền thống'}}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Số tiền NVC thu hộ: </label>
+              </div>
+              <div class="col mt-2">
+                {{ number_format($resData['cod_amount']) }} đ
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Cho xem hàng: </label>
+              </div>
+              <div class="col mt-2">
+                {{ ($resData['required_note'] == 'CHOTHUHANG') ? 'Cho xem hàng' : 'Không xem hàng'}}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Loại phương tiện vận chuyển: </label>
+              </div>
+              <div class="col mt-2">
+                {{ $shipping->trans_type }}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Thời gian lấy hàng dự kiến: </label>
+              </div>
+              <div class="col mt-2">
+                {{ $resData['pickup_time']}}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Thời gian giao hàng dự kiến: </label>
+              </div>
+              <div class="col mt-2">
+                {{ $shipping->expected_delivery_time }}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Trạng thái vận đơn: </label>
+              </div>
+              <div class="col mt-2">
+                {{ ($resData['status'] == 'ready_to_pick') ? 'Chờ lấy hàng' : 'update later'}}
+              </div>
+             
+            </div>
+            <div class="row border border-grey rounded-lg bg-white">
+              <div class="col mt-2">
+                <label>Phí vận chuyển đơn hàng: </label>
+              </div>
+              <div class="col mt-2 text-danger">
+               <b>{{ number_format($shipping->total_fee) }}đ</b> 
+              </div>
+             
+            </div>
+           @else
+           <form action="{{  route('bill.update',$customer->bill_id) }}" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            {{ csrf_field() }}
+            <h4>Tạo vận đơn cho nhà vận chuyển</h4>
+            <br> 
+            <h5>Địa chỉ người nhận hàng: </h5>
+           <div class="row mt-4">
+       
+                  <div class="col">
+                    <label>Tỉnh thành: </label>
+                    <select name="provinceID" id="mySelect" class="form-control">
+                        @foreach ($provinces as $province)
+                        <option value="{{ $province->ProvinceID }}" {{ ($province->ProvinceID==$customer->address->idProvince)?'selected':''}}>
+                        {{ $province->ProvinceName }}
+                        </option>
                             
-                        </select>
-                      </div>
-               </div>
-               <div class="row mt-3">
-                <div class="col">
-                    <label>Phường xã: </label>
-                    <select name="wardID" id="wardSelect" class="form-control">
-                        <option value="">Chọn phường xã</option>
+                        @endforeach
                     </select>
                   </div>
-                  <div class="col form-group">
-                    <label>Địa chỉ: </label>
-                     <input type="text" name="address" id="" value="" class="form-control">
-                  </div>
-               </div>
-               <br>
-               <h5>Thông tin đóng gói cho đơn hàng: </h5>
-               <div class="row">
-            
-                <div class="col form-group">
-                    <label>Cận nặng gói hàng: </label>
-                    <input type="text"  name="weight" id="" value="" class="form-control" placeholder="đơn vị gram">
 
-                </div>
-                <div class="col form-group">
-                    <label>Chiều dài gói hàng: </label>
-                    <input type="text"  name="length" id="" value="" class="form-control" placeholder="tối đa 150cm">
-                </div>
-               </div>
-               <div class="row">
-
-                <div class="col form-group">
-                    <label>Chiều rộng gói hàng: </label>
-                    <input type="text"  name="width" id="" value="" class="form-control" placeholder="tối đa 150cm">
-
-                  </div>
-                  <div class="col form-group">
-                    <label>Chiều cao gói hàng: </label>
-                    <input type="text"  name="height" id="" value="" class="form-control" placeholder="tối đa 150cm">
-                  </div>
-
-               </div>
-               <div class="row">
                   <div class="col">
-                      <Label>Cho xem hàng</Label>
-                      <select name="ordercheck" id="" class="form-control">
-
-                        <option value="CHOTHUHANG">Cho xem hàng</option>
-                        <option value="KHONGCHOXEMHANG">Không cho xem hàng</option>
-                      </select>
+                    <label>Quận huyện: </label>
+                    <select name="districtID" id="districtSelect" class="form-control">
+                        <option value="">Chọn quận huyện</option>
+                        
+                    </select>
                   </div>
-               </div>
-               <div class="row mt-3">
-                 <div class="col">
-                    <Label>Ghi chú</Label>
-                    <input type="text" name="note" id="" class="form-control">
-                 </div>
-               </div>
+           </div>
+           <div class="row mt-3">
+            <div class="col">
+                <label>Phường xã: </label>
+                <select name="wardID" id="wardSelect" class="form-control">
+                    <option value="">Chọn phường xã</option>
+                </select>
+              </div>
+              <div class="col form-group">
+                <label>Địa chỉ: </label>
+                 <input type="text" name="address" id="" value="" class="form-control">
+              </div>
+           </div>
+           <br>
+           <h5>Thông tin đóng gói cho đơn hàng: </h5>
+           <div class="row">
+        
+            <div class="col form-group">
+                <label>Cận nặng gói hàng: </label>
+                <input type="text"  name="weight" id="" value="" class="form-control" placeholder="đơn vị gram">
 
+            </div>
+            <div class="col form-group">
+                <label>Chiều dài gói hàng: </label>
+                <input type="text"  name="length" id="" value="" class="form-control" placeholder="tối đa 150cm">
+            </div>
+           </div>
+           <div class="row">
+
+            <div class="col form-group">
+                <label>Chiều rộng gói hàng: </label>
+                <input type="text"  name="width" id="" value="" class="form-control" placeholder="tối đa 150cm">
+
+              </div>
+              <div class="col form-group">
+                <label>Chiều cao gói hàng: </label>
+                <input type="text"  name="height" id="" value="" class="form-control" placeholder="tối đa 150cm">
+              </div>
+
+           </div>
+           <div class="row">
+              <div class="col">
+                  <Label>Cho xem hàng</Label>
+                  <select name="ordercheck" id="" class="form-control">
+
+                    <option value="CHOTHUHANG">Cho xem hàng</option>
+                    <option value="KHONGCHOXEMHANG">Không cho xem hàng</option>
+                  </select>
+              </div>
+           </div>
+           <div class="row mt-3">
+             <div class="col">
+                <Label>Ghi chú</Label>
+                <input type="text" name="note" id="" class="form-control">
+             </div>
+           </div>
+
+           @endif
+               
 
 
 
                     <div class="form-inline mt-4">
                         <label>Trạng thái giao hàng: </label>
                         <select name="status" class="form-control input-inline mr-2" style="width: 200px">
-                            <option value="Chưa giao">Chưa giao</option>
-                            <option value="Đang Giao">Đang giao</option>
+                          @if ($customer->bill_status == 'Đang Giao')
+                          <option value="Đang Giao">Đang giao</option>
+                          <option value="Đã giao">Đã giao</option>
+                          @else
+                          <option value="Chưa giao">Chưa giao</option>
+                          <option value="Đang Giao">Đang giao</option>
+                          @endif
+                            
                             {{-- <option value="Đã giao">Đã giao</option> --}}
+
                         </select>
     
                         <input type="submit" value="Xử lý" class="btn btn-primary">

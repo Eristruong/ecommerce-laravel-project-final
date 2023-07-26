@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillDetail;
 use App\Customer;
+use App\Mail\notifyStaff;
 use App\Province;
 use App\District;
 use App\Address;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PHPUnit\Framework\Constraint\Count;
@@ -158,6 +160,9 @@ class CheckoutController extends Controller
                $phonenumber = $customer->phone_number;
                 Mail::to($customer->email)->send(new ShoppingMail($bills, $billdetails, $date, $name, $phonenumber));
 
+                $admin = User::where('typeuser', 'admin')->first();
+            
+                Mail::to($admin->email)->send(new notifyStaff($bills, $billdetails, $date, $name, $phonenumber));
 
 
                 //case khách hàng đặt cọc trước 10% giá trị đơn hàng mới được thanh toán tiền mặt khi nhận hàng

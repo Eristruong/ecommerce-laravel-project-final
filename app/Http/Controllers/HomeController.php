@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class HomeController extends Controller
         $slides = DB::table('banner')->get();
         $vocase = Product::where('categoryID','7')->get();
         $monitor = Product::where('categoryID','9')->get();
+
         return view('home',['products'=>$products,'slide'=>$slide,'slides'=>$slides,'vocase'=>$vocase,'monitor'=>$monitor]);
     }
 
