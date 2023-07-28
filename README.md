@@ -84,7 +84,6 @@ Trang quản lí đơn hàng
 
 ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/f41d0153-e22c-4868-a234-c41c6a03b6e2)
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/9815fbdc-d5a1-442d-b0aa-b4b539c52f02)
 
 ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/dc63e150-9265-42b5-85b9-88545f813e3c)
 
