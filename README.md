@@ -9,7 +9,8 @@ Trang chủ hiển thị
 
   - Giao diện trang chủ gồm : Mục giới thiệu, sản phẩm, liên hệ, phần tìm kiếm , giỏ hàng và trang admin. Có chức năng tìm kiếm, hiển thị sản phẩm để giúp người dùng dễ dàng lựa chọn và đặt hàng  một cách nhanh chóng
     
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/828f4fb8-8f3c-4695-8e67-004b66310ba4)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/5b4eb5e7-6405-416f-8b3f-269f60c39841)
+
 ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/afa36710-de68-4d26-97d7-f65c4ee57657)
 
 
