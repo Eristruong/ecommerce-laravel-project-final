@@ -1,6 +1,6 @@
 
 # ecommerce-laravel-project-final
-Ecommerce website for final exam in my college
+Ecommerce website has VnPay payment and handle shipping GiaoHangNhanh for final exam in my college
 
 1 Giao diện trang người dùng
 
