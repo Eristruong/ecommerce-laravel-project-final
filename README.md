@@ -11,50 +11,68 @@ Trang chủ hiển thị
     
 ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/5b4eb5e7-6405-416f-8b3f-269f60c39841)
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/afa36710-de68-4d26-97d7-f65c4ee57657)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/314e6231-0714-49de-9586-990be892994e)
+
 
 
 Trang Đăng nhập
 
-    - Khi đã đăng ký tài khoản trên hệ thống , người dùng có thể đăng nhập vào để sử dụng dịch vụ
-    
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/e165bdbd-16d8-4b9d-bb67-929aa7054997)
-
- 
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/6adcb081-5aa7-463c-bf47-4069b1756a35)
 
 Trang giỏ hàng
 
   -Khi có lượng khách truy cập hoặc ghé thăm website, hệ thống sẽ tự động tạo cho người dùng một giỏ hàng riêng và trong giỏ hàng lúc đó sẽ trống. Nếu khách hàng liên tục xem các sản phẩm trên website, chọn hàng , đưa hàng vào giỏ hàng và thanh toán .
-  
-  ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/41591817-ef14-4242-8847-487a8b814ca7)
+
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/942a3a8e-d612-4811-b05d-a32f5854945f)
+
 
 Trang đặt hàng
- - khi khách hàng chọn sản phẩm vào đơn hàng và tiến hành đặt hàng thì hệ thống sẽ sẽ chuyển khách hàng đến form nhập thông tin, địa chỉ, số điện thoại.
+ - khi khách hàng chọn sản phẩm vào đơn hàng và tiến hành đặt hàng thì hệ thống sẽ sẽ chuyển khách hàng đến form nhập thông tin, địa chỉ, số điện thoại. 
+ước tính chi phí vận chuyển.
 Khách hàng bấm xác nhận thì đơn hàng sẽ được gửi về người quản trị để xác nhận và duyệt đơn hàng
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/14dacf25-e468-4e42-a012-6f3451566511)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/cc29fe1f-b8f7-470a-b7cc-ea558436d6c1)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/3614301b-b72c-4bbd-bf5e-f84335b5873f)
+
+
 
 Email sau khi đặt hàng
 
   - khi khách hàng bấm gửi đơn hàng thì sẽ có email tự động của hệ thống phản hồi đến địa chỉ email mà khách hàng đã cung cấp.
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/eb2ace75-83ea-45d5-8d88-8b357eb74ed8)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/4e55982d-2109-4a97-aeca-e1a867ddcf6c)
+
+  - email tư động thông báo một đơn hàng mới được đặt từ phía khách hàng đến mail của nhân viên hệ thống
+    
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/12ecfa72-7424-4f80-bd36-c40b9515adc5)
+
+
 
 Thanh toán trực tuyến VNPAY cho đơn hàng
 
-![Screenshot 2023-06-25 234922](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/ed3425c9-7b2c-4a1e-ac3a-e2889615337a)
-![Screenshot 2023-06-25 235047](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/55bfd156-d15a-4813-a3aa-d1b645eabdc1)
-![Screenshot 2023-06-25 235238](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/6e4e70d0-50b9-4233-8b18-5368f12a0d6b)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/6e3d6d8c-e2e6-4f5b-96eb-a7c3d502f37c)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/1244e46d-9170-46a2-854a-46f188ce2eac)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/df48a590-e3a4-40fd-95d7-f554bedf3832)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/2e320477-77eb-4cd5-865e-931621a9d9b7)
 
+Tạo vận đơn thông qua nhà vận chuyển Giao hàng nhanh - GHN API
+
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/45a06b09-3f84-4c0a-9f35-c16c98b56aac)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/52438362-47ca-4e88-a084-ed05c6dbccdd)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/f692b3bd-1864-4483-91a4-36de5002f0bc)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/9bb6ae69-2fcf-43a4-8559-d83cfc7c4f1b)
 
  Trang chi tiết sản phẩm
 - Khách hàng có thể xem chi tiết về sản phẩm, xem các sản phẩm liên quan, và xem hoặc trực tiếp bình luận đánh giá về sản phẩm.
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/9017bf74-819b-45e6-bc11-1b27d772ef15)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/3896b1c8-08d5-4bc1-804c-dd922af28b61)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/e209eab0-70e7-41da-aa97-45e0dfa88a11)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/00727534-d6a8-4287-af04-893f94231e78)
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/89f7ea5f-c2b4-44a2-9b3d-470a3fe7e7fb)
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/7f998f63-65c0-4771-a158-0c78992c54d7)
+
+
+
 
 
 2 Giao diện trang quản trị
@@ -63,33 +81,25 @@ Thanh toán trực tuyến VNPAY cho đơn hàng
 Trang chủ thống kê
  - Trang chủ bao gồm thống kế các sản phẩm danh mục, Số lượng đơn hàng và số lượng người dùng để người quản trị dễ dàng quản lí, kiểm soát.
    
- ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/164a8d28-4c25-4b54-95c9-5ac3baf91be7)
-
-
- 
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/43952ce8-4029-4535-98f7-2608bb9c077b)
 
 Trang quản lý danh mục
  - Trang quản lý danh mục có chức năng xem chi tiết, sửa thông tin danh mục của sản phẩm, thêm và xóa danh mục.
 
-   ![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/482d364b-f59a-4a72-80e1-83422a93f95b)
- 
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/e43a60c3-0605-487d-bb6b-f81275262959)
+
 Trang quản lý sản phẩm
   - Trang quản lý sản phẩm có chức năng sửa thông tin sản phẩm, xóa sản phẩm và thêm thông tin sản phẩm mới.
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/6daa37e3-7b15-4fb3-a34d-68ccfd7f6748)
-
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/b8c7284a-72bf-47f4-8efe-9b4f4cf2540a) 
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/c624fe2f-c6c2-453d-83ed-d6330f5efbc4)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/fbeae8d5-52d7-4f8b-bba4-9812ea233570)
 
 Trang quản lí đơn hàng
   - Giúp người quản trị có thể quản lí nhiều đơn hàng được đặt từ khách hàng gồm các chức năng xem chi tiết đơn hàng được đặt, xóa đơn hàng, cập nhật trạng thái cho đơn hàng.
 
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/f41d0153-e22c-4868-a234-c41c6a03b6e2)
-
-
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/dc63e150-9265-42b5-85b9-88545f813e3c)
-
-
-![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/646d46bc-7986-4d53-88ba-23da4baa2256)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/d15d5a73-d1d9-4d31-a976-9bddfb2cbf76)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/dd75fab6-a37d-474c-a4b4-835fa73eb95a)
+![image](https://github.com/Eristruong/ecommerce-laravel-project-final/assets/66561370/0b6cc2cf-3a66-4cf6-bafd-94fa18ea985a)
 
 
 
